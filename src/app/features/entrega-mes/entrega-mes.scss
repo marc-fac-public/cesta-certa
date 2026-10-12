@@ -18,3 +18,8 @@
 .dialogo { max-width: 400px; background: #fff; border-radius: 16px; padding: 20px; border-top: 10px solid var(--aviso-borda); display: flex; flex-direction: column; gap: 14px; }
 .dialogo h2 { margin: 0; font-size: 1.4375rem; color: var(--aviso); display: flex; gap: 10px; align-items: center; }
 .dialogo p { margin: 0; }
+.endereco { font-size: 1.0625rem; font-weight: 600; color: var(--texto); margin-top: 2px; }
+.dica { font-size: 0.9375rem; color: var(--texto); }
+.filtros { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.filtro { min-height: 48px; border-radius: 10px; border: 2px solid var(--verde); background: #fff; color: var(--verde-esc); font-size: 1rem; font-weight: 700; cursor: pointer; }
+.filtro[aria-pressed="true"] { background: var(--verde); color: #fff; }

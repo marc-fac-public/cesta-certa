@@ -6,7 +6,7 @@ import { AcessibilidadeService } from '../core/services/acessibilidade.service';
   selector: 'app-botao-letra',
   template: `
     <button type="button" class="btn-letra" [attr.aria-pressed]="acessibilidade.letraGrande()" (click)="acessibilidade.alternar()">
-      <span aria-hidden="true">A+</span><span class="sr-only">Letra maior</span>
+      <span aria-hidden="true">A+</span> Letra<span class="sr-only"> maior</span>
     </button>
   `,
   styles: `:host { margin-left: auto; }`,
