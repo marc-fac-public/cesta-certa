@@ -33,6 +33,8 @@ export class EntregaMes implements OnInit {
   protected readonly nomeDoMes = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
   protected readonly itens = signal<ItemListaDoMes[]>([]);
   protected readonly busca = signal('');
+  /** Feedback da rodada 1: ver só quem ainda não veio buscar a cesta (RF09). */
+  protected readonly soFaltam = signal(false);
   protected readonly registrando = signal<string | null>(null);
   protected readonly confirmacao = signal<Confirmacao | null>(null);
   protected readonly aviso = signal<AvisoDuplicidade | null>(null);
@@ -40,19 +42,21 @@ export class EntregaMes implements OnInit {
   protected readonly online = signal(typeof navigator === 'undefined' ? true : navigator.onLine);
 
   protected readonly entregues = computed(() => this.itens().filter((i) => i.entrega).length);
+  protected readonly faltam = computed(() => this.itens().length - this.entregues());
   protected readonly filtrados = computed(() => {
+    const base = this.soFaltam() ? this.itens().filter((i) => !i.entrega) : this.itens();
     const texto = nomeParaBusca(this.busca());
     if (texto.length < 3) {
-      return this.itens();
+      return base;
     }
     const digitos = normalizarCpf(this.busca());
-    return this.itens().filter(
+    return base.filter(
       (i) => i.familia.nomeBusca.includes(texto) || (digitos.length >= 3 && i.familia.cpfResponsavel.includes(digitos)),
     );
   });
   protected readonly mensagemBusca = computed(() => {
     const tamanho = nomeParaBusca(this.busca()).length;
-    if (tamanho === 0) return 'Lista do mês';
+    if (tamanho === 0) return this.soFaltam() ? `Faltam receber: ${this.faltam()} famílias` : 'Lista do mês';
     if (tamanho < 3) return 'Digite pelo menos 3 letras para buscar.';
     const n = this.filtrados().length;
     return n === 1 ? '1 família encontrada' : `${n} famílias encontradas`;

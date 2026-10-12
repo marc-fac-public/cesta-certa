@@ -41,6 +41,11 @@
     }
   </div>
 
+  <div class="filtros" role="group" aria-label="Quais famílias mostrar">
+    <button type="button" class="filtro" [attr.aria-pressed]="!soFaltam()" (click)="soFaltam.set(false)">Todas ({{ itens().length }})</button>
+    <button type="button" class="filtro" [attr.aria-pressed]="soFaltam()" (click)="soFaltam.set(true)">Faltam receber ({{ faltam() }})</button>
+  </div>
+
   <p class="ajuda" aria-live="polite">{{ mensagemBusca() }}</p>
 
   @for (item of filtrados(); track item.familia.cpfResponsavel) {
