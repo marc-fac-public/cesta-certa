@@ -16,36 +16,37 @@ Projeto acadêmico da disciplina de **Projeto de Software** (Experiência Práti
 
 O cadastro das cerca de 180 famílias atendidas é feito em fichas de papel e mensagens de WhatsApp. Isso gera cadastros duplicados, cestas entregues duas vezes no mesmo mês, vagas presas por famílias que se mudaram e filas lentas no dia da distribuição.
 
-## O que o MVP faz
+## O que o MVP faz (versão final)
 
-| Requisito | Descrição | Prioridade |
+| Requisito | Descrição | Situação |
 |---|---|---|
-| RF01 | Login com e-mail e senha, com telas por perfil (administrador/voluntário) | Obrigatório |
-| RF02 | Cadastro de família com CPF válido | Obrigatório |
-| RF03 | Bloqueio de CPF duplicado | Obrigatório |
-| RF04 | Edição de dados e status (ativa / espera / inativa) | Obrigatório |
-| RF05 | Busca por parte do nome ou CPF, mesmo sem internet | Obrigatório |
-| RF06 | Lista de entrega do mês com status | Obrigatório |
-| RF07 | Registro da entrega com um toque, mesmo sem internet | Obrigatório |
-| RF08 | Bloqueio da segunda entrega no mesmo mês | Obrigatório |
-| RF09 | Lista de famílias que não compareceram | Desejável |
-| RF10 | Relatório mensal compartilhável | Desejável |
+| RF02 | Cadastro de família com CPF válido | ✅ Implementado |
+| RF03 | Bloqueio de CPF duplicado | ✅ Implementado |
+| RF05 | Busca por parte do nome ou CPF, mesmo sem internet | ✅ Implementado |
+| RF06 | Lista de entrega do mês com status e endereço | ✅ Implementado |
+| RF07 | Registro da entrega com um toque, mesmo sem internet | ✅ Implementado |
+| RF08 | Bloqueio da segunda entrega no mesmo mês | ✅ Implementado |
+| RF09 | Filtro "Faltam receber" | ✅ Implementado |
+| RNF04 | Acessibilidade: botão "A+ Letra", alto contraste, alertas com texto e símbolo | ✅ Implementado |
+| RF01 | Login com e-mail e senha por perfil | ⏳ Próxima versão |
+| RF04 | Edição de dados e status da família | ⏳ Próxima versão |
+| RF10 | Relatório mensal compartilhável | ⏳ Próxima versão |
 
 ## Arquitetura
 
 Aplicação Angular monolítica em camadas:
 
-- **Apresentação** (`src/app/features`): componentes de tela.
+- **Apresentação** (`src/app/features`): telas de menu, entrega do mês e cadastro.
 - **Regras de negócio** (`src/app/core/services`): validação de CPF, duplicidade, uma entrega por família por mês.
-- **Persistência** (`src/app/core/repositories`): único ponto de acesso ao Cloud Firestore (cache offline em IndexedDB).
+- **Persistência** (`src/app/core/repositories`): contratos de repositório. Na versão atual, a implementação é em memória (modo demonstração com dados fictícios, `src/app/core/demo`); a integração com o Cloud Firestore exige apenas novos repositórios e a troca dos provedores em `app.config.ts`.
 
 ## Tecnologias
 
-- Angular 22 · TypeScript 6.0 · Node.js 24 LTS
-- Angular Service Worker (PWA) · Angular Material
-- Firebase JS SDK 12 (Firestore + Authentication) · Firebase Hosting
-- Vitest (testes unitários e de integração)
-- GitHub Actions (integração contínua)
+- Angular 22 (componentes standalone, signals, Reactive Forms) · TypeScript 6.0 · Node.js 24 LTS
+- Angular Service Worker (PWA) e Web App Manifest
+- SCSS próprio com foco em acessibilidade (rem, contraste, áreas de toque de 48 px)
+- Vitest + coverage-v8 (testes unitários, de integração e de componente)
+- GitHub Actions (CI, deploy e monitoramento) · GitHub Pages (hospedagem)
 
 ## Como executar
 
