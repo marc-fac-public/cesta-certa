@@ -15,13 +15,13 @@ export const USUARIO_DEMO: Usuario = {
 };
 
 
-function familia(cpf: string, nome: string, numMoradores: number, status: Familia['status'] = 'ativa'): Familia {
+function familia(cpf: string, nome: string, numMoradores: number, endereco: string, status: Familia['status'] = 'ativa'): Familia {
   const hoje = new Date();
   return {
     cpfResponsavel: cpf,
     nomeResponsavel: nome,
     nomeBusca: nomeParaBusca(nome),
-    endereco: 'Quadra 104 – Recanto das Emas',
+    endereco,
     numMoradores,
     status,
     dataCadastro: hoje,
@@ -38,12 +38,12 @@ export async function carregarDadosDemo(
 ): Promise<void> {
   const as = (h: number, m: number) => new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), h, m);
   const lista = [
-    familia('52998224725', 'Maria Souza', 4),
-    familia('11144477735', 'Maria Souza Ramos', 3),
-    familia('93541134780', 'José Pereira', 5),
-    familia('12345678909', 'Joana Martins', 3),
-    familia('39053344705', 'Francisco Alves', 6),
-    familia('15350946056', 'Antônia Ribeiro', 2, 'espera'),
+    familia('52998224725', 'Maria Souza', 4, 'Quadra 104, Conjunto 3, Casa 10'),
+    familia('11144477735', 'Maria Souza Ramos', 3, 'Quadra 108, Conjunto 1, Casa 22'),
+    familia('93541134780', 'José Pereira', 5, 'Quadra 104, Conjunto 7, Casa 4'),
+    familia('12345678909', 'Joana Martins', 3, 'Quadra 106, Conjunto 2, Casa 15'),
+    familia('39053344705', 'Francisco Alves', 6, 'Quadra 110, Conjunto 5, Casa 8'),
+    familia('15350946056', 'Antônia Ribeiro', 2, 'Quadra 104, Conjunto 9, Casa 1', 'espera'),
   ];
   for (const f of lista) {
     await familias.salvar(f);

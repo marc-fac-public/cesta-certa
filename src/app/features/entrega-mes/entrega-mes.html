@@ -46,6 +46,7 @@
     <article class="cartao familia">
       <div>
         <div class="nome">{{ item.familia.nomeResponsavel }}</div>
+        <div class="endereco"><span aria-hidden="true">📍</span> {{ item.familia.endereco }}</div>
         <div class="ajuda">CPF {{ mascarar(item.familia.cpfResponsavel) }} · {{ item.familia.numMoradores }} moradores</div>
       </div>
       <div class="linha-acao">
