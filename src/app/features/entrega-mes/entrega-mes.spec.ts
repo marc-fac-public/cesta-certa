@@ -84,3 +84,32 @@ describe('EntregaMes (tela)', () => {
     expect(tela.querySelector('.vazio')?.textContent).toContain('Nenhuma família encontrada');
   });
 });
+
+describe('EntregaMes (ajustes da rodada 1 de validação)', () => {
+  it('mostra o endereço da família no cartão', async () => {
+    const { fixture, tela } = await montar();
+    await buscar(fixture, 'maria sou');
+    const enderecos = [...tela.querySelectorAll('.familia .endereco')].map((e) => e.textContent?.trim());
+    expect(enderecos).toEqual(['📍 Quadra 104, Conjunto 3, Casa 10', '📍 Quadra 108, Conjunto 1, Casa 22']);
+  });
+
+  it('limpa a busca depois de registrar a entrega, mantendo a confirmação', async () => {
+    const { fixture, tela } = await montar();
+    await buscar(fixture, 'maria sou');
+    await entregar(fixture, 'Maria Souza');
+    expect(tela.querySelector<HTMLInputElement>('#busca')!.value).toBe('');
+    expect(tela.querySelectorAll('.familia')).toHaveLength(5);
+    expect(tela.querySelector('.alerta.ok')?.textContent).toContain('Avise o administrador');
+  });
+
+  it('filtra apenas as famílias que faltam receber', async () => {
+    const { fixture, tela } = await montar();
+    const [, faltam] = tela.querySelectorAll<HTMLButtonElement>('.filtro');
+    expect(faltam.textContent).toContain('Faltam receber (3)');
+    faltam.click();
+    fixture.detectChanges();
+    expect(faltam.getAttribute('aria-pressed')).toBe('true');
+    expect(tela.querySelectorAll('.familia')).toHaveLength(3);
+    expect(tela.querySelector('.familia .status.entregue')).toBeNull();
+  });
+});
