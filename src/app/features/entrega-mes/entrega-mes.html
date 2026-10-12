@@ -14,6 +14,7 @@
       <div>
         <strong>Cesta entregue para {{ c.nome }} às {{ c.hora }}.</strong><br />
         @if (online()) { Registro salvo. } @else { ⏳ Aguardando internet para enviar. }
+        <br /><span class="dica">Marcou a família errada? Avise o administrador para corrigir.</span>
       </div>
     </div>
   } @else if (!online()) {

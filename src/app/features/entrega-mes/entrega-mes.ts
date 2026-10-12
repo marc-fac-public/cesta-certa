@@ -27,6 +27,7 @@ interface AvisoDuplicidade {
 export class EntregaMes implements OnInit {
   private readonly entregas = inject(EntregaService);
   private readonly botaoEntendi = viewChild<ElementRef<HTMLButtonElement>>('entendi');
+  private readonly campoBusca = viewChild<ElementRef<HTMLInputElement>>('campo');
 
   protected readonly mes = mesDeReferencia(new Date());
   protected readonly nomeDoMes = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
@@ -73,7 +74,6 @@ export class EntregaMes implements OnInit {
 
   protected aoDigitar(evento: Event): void {
     this.busca.set((evento.target as HTMLInputElement).value);
-    this.confirmacao.set(null);
   }
 
   protected limpar(campo: HTMLInputElement): void {
@@ -89,6 +89,7 @@ export class EntregaMes implements OnInit {
       const resultado = await this.entregas.registrar(item.familia.cpfResponsavel, USUARIO_DEMO.uid);
       if (resultado.ok) {
         this.confirmacao.set({ nome: item.familia.nomeResponsavel, hora: formatarHora(resultado.entrega.dataHoraEntrega) });
+        this.prepararProximaBusca();
       } else if (resultado.motivo === 'ja-entregue') {
         this.aviso.set({
           nome: item.familia.nomeResponsavel,
@@ -109,6 +110,17 @@ export class EntregaMes implements OnInit {
 
   protected fecharAviso(): void {
     this.aviso.set(null);
+    this.prepararProximaBusca();
+  }
+
+  /** Feedback da rodada 1: após cada atendimento, a busca fica vazia e com foco para o próximo nome. */
+  private prepararProximaBusca(): void {
+    this.busca.set('');
+    const campo = this.campoBusca()?.nativeElement;
+    if (campo) {
+      campo.value = '';
+      setTimeout(() => campo.focus());
+    }
   }
 
   private async recarregar(): Promise<void> {
