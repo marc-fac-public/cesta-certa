@@ -1,5 +1,6 @@
 import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BotaoLetra } from '../../shared/botao-letra';
 import { USUARIO_DEMO } from '../../core/demo/dados-demo';
 import { formatarHora, nomeDoVoluntario } from '../../core/formatacao';
 import { EntregaService, ItemListaDoMes, mesDeReferencia } from '../../core/services/entrega.service';
@@ -19,7 +20,7 @@ interface AvisoDuplicidade {
 /** Tela central: buscar a família na fila e registrar a retirada da cesta (RF05–RF08). */
 @Component({
   selector: 'app-entrega-mes',
-  imports: [RouterLink],
+  imports: [RouterLink, BotaoLetra],
   templateUrl: './entrega-mes.html',
   styleUrl: './entrega-mes.scss',
 })

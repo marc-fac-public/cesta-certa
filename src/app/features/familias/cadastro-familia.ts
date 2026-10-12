@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { BotaoLetra } from '../../shared/botao-letra';
 import { USUARIO_DEMO } from '../../core/demo/dados-demo';
 import { FamiliaService } from '../../core/services/familia.service';
 import { cpfValido, mascararCpf } from '../../core/validators/cpf';
@@ -10,7 +11,7 @@ type Campo = 'nomeResponsavel' | 'cpfResponsavel' | 'endereco' | 'telefone' | 'n
 /** Cadastro de família com validação de CPF e bloqueio de duplicidade (RF02 e RF03). */
 @Component({
   selector: 'app-cadastro-familia',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, BotaoLetra],
   templateUrl: './cadastro-familia.html',
   styleUrl: './cadastro-familia.scss',
 })

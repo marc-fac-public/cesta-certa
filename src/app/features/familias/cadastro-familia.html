@@ -1,6 +1,7 @@
 <header class="topo">
   <a class="voltar" routerLink="/" aria-label="Voltar ao menu">← Menu</a>
   <div><h1>Cadastrar família</h1><div class="sub">Campos com * são obrigatórios</div></div>
+  <app-botao-letra />
 </header>
 
 <form class="conteudo" [formGroup]="form" (ngSubmit)="salvar()" novalidate>

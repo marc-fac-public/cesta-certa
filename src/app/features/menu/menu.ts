@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BotaoLetra } from '../../shared/botao-letra';
 import { USUARIO_DEMO } from '../../core/demo/dados-demo';
 import { EntregaService, mesDeReferencia } from '../../core/services/entrega.service';
 
 @Component({
   selector: 'app-menu',
-  imports: [RouterLink],
+  imports: [RouterLink, BotaoLetra],
   templateUrl: './menu.html',
   styleUrl: './menu.scss',
 })
