@@ -3,6 +3,7 @@ import { Entrega } from '../models/entrega';
 import { Familia } from '../models/familia';
 import { EntregaJaExisteError, EntregaRepository } from '../repositories/entrega.repository';
 import { FamiliaRepository } from '../repositories/familia.repository';
+import { normalizarCpf } from '../validators/cpf';
 
 export type ResultadoEntrega =
   | { ok: true; entrega: Entrega }
@@ -30,7 +31,9 @@ export class EntregaService {
   private readonly familias = inject(FamiliaRepository);
   private readonly entregas = inject(EntregaRepository);
 
-  async registrar(cpf: string, usuarioUid: string, agora = new Date()): Promise<ResultadoEntrega> {
+  async registrar(cpfInformado: string, usuarioUid: string, agora = new Date()): Promise<ResultadoEntrega> {
+    // O identificador da entrega deve usar sempre os 11 dígitos, com ou sem pontuação na entrada.
+    const cpf = normalizarCpf(cpfInformado);
     const familia = await this.familias.buscarPorCpf(cpf);
     if (!familia) {
       return { ok: false, motivo: 'familia-nao-encontrada' };
