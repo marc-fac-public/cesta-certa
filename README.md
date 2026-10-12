@@ -1,6 +1,8 @@
 # Cesta Certa
 
 [![CI](https://github.com/marc-fac-public/cesta-certa/actions/workflows/ci.yml/badge.svg)](https://github.com/marc-fac-public/cesta-certa/actions/workflows/ci.yml)
+[![Deploy](https://github.com/marc-fac-public/cesta-certa/actions/workflows/deploy.yml/badge.svg)](https://github.com/marc-fac-public/cesta-certa/actions/workflows/deploy.yml)
+[![Monitoramento](https://github.com/marc-fac-public/cesta-certa/actions/workflows/monitoramento.yml/badge.svg)](https://github.com/marc-fac-public/cesta-certa/actions/workflows/monitoramento.yml)
 
 Sistema web (PWA) para controle do cadastro de famílias e da entrega mensal de cestas básicas da **Associação Comunitária Raízes do Recanto** (Recanto das Emas – DF).
 
@@ -78,6 +80,7 @@ src/app/core/
 | Integração | `integracao/fluxo-entrega.integration.spec.ts` | fluxo completo do sábado de entrega com dois voluntários |
 
 A pipeline de CI (`.github/workflows/ci.yml`) executa testes, build e `npm audit` em todo Pull Request.
+O workflow `.github/workflows/monitoramento.yml` verifica a cada 30 minutos se a aplicação publicada responde; se cair, abre automaticamente uma issue de alerta e a fecha quando o serviço volta.
 O workflow `.github/workflows/deploy.yml` publica a versão da `main` no GitHub Pages, somente se os testes passarem.
 
 ## Fluxo de trabalho

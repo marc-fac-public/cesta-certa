@@ -1,0 +1,93 @@
+name: Monitoramento
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # a cada 30 minutos
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: monitoramento
+  cancel-in-progress: false
+
+env:
+  URL_BASE: https://marc-fac-public.github.io/cesta-certa/
+  TITULO_ALERTA: "🔴 Cesta Certa fora do ar (alerta automático do monitoramento)"
+
+jobs:
+  disponibilidade:
+    name: Verificar disponibilidade do MVP
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verificar páginas e arquivos essenciais
+        id: verificacao
+        run: |
+          set -u
+          falhas=0
+          {
+            echo "## Monitoramento do Cesta Certa"
+            echo ""
+            echo "Verificação em $(TZ=America/Sao_Paulo date '+%d/%m/%Y %H:%M') (horário de Brasília)"
+            echo ""
+            echo "| Recurso verificado | HTTP | Tempo (s) | Situação |"
+            echo "|---|---|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          verificar() {
+            local nome="$1" caminho="$2" esperado="$3"
+            local corpo resultado codigo tempo
+            corpo=$(mktemp)
+            resultado=$(curl -s -o "$corpo" -w '%{http_code} %{time_total}' --max-time 20 "${URL_BASE}${caminho}" || echo "000 20")
+            codigo=${resultado% *}
+            tempo=${resultado#* }
+            if [ "$codigo" = "200" ] && grep -q "$esperado" "$corpo"; then
+              echo "| $nome | $codigo | $tempo | 🟢 UP |" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "| $nome | $codigo | $tempo | 🔴 DOWN |" >> "$GITHUB_STEP_SUMMARY"
+              falhas=$((falhas + 1))
+            fi
+          }
+
+          verificar "Página inicial" "" "<title>Cesta Certa</title>"
+          verificar "Manifesto do PWA" "manifest.webmanifest" "Cesta Certa"
+          verificar "Service worker (modo offline)" "ngsw-worker.js" "ngsw"
+          verificar "Configuração do service worker" "ngsw.json" "configVersion"
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$falhas" -eq 0 ]; then
+            echo "**Status geral: 🟢 UP** – todos os recursos responderam corretamente." >> "$GITHUB_STEP_SUMMARY"
+            echo "status=up" >> "$GITHUB_OUTPUT"
+          else
+            echo "**Status geral: 🔴 DOWN** – $falhas recurso(s) com falha." >> "$GITHUB_STEP_SUMMARY"
+            echo "status=down" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Abrir alerta quando o MVP estiver fora do ar
+        if: steps.verificacao.outputs.status == 'down'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          aberta=$(gh issue list --state open --search "in:title \"$TITULO_ALERTA\"" --json number --jq '.[0].number')
+          detalhe="Falha detectada em $(TZ=America/Sao_Paulo date '+%d/%m/%Y %H:%M'). Detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -z "$aberta" ]; then
+            gh issue create --title "$TITULO_ALERTA" --body "$detalhe"
+          else
+            gh issue comment "$aberta" --body "Ainda fora do ar. $detalhe"
+          fi
+          exit 1
+
+      - name: Encerrar alerta quando o MVP voltar ao ar
+        if: steps.verificacao.outputs.status == 'up'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          aberta=$(gh issue list --state open --search "in:title \"$TITULO_ALERTA\"" --json number --jq '.[0].number')
+          if [ -n "$aberta" ]; then
+            gh issue close "$aberta" --comment "🟢 Serviço restabelecido em $(TZ=America/Sao_Paulo date '+%d/%m/%Y %H:%M')."
+          fi
