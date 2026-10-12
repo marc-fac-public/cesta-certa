@@ -6,6 +6,8 @@ Sistema web (PWA) para controle do cadastro de famílias e da entrega mensal de 
 
 Projeto acadêmico da disciplina de **Projeto de Software** (Experiência Prática III), alinhado ao **ODS 2 – Fome Zero e Agricultura Sustentável (meta 2.1)**.
 
+**Aplicação publicada:** https://marc-fac-public.github.io/cesta-certa/ (modo demonstração com dados fictícios)
+
 > Todos os dados usados no repositório, nos testes e nas demonstrações são **fictícios**.
 
 ## Problema
@@ -76,6 +78,7 @@ src/app/core/
 | Integração | `integracao/fluxo-entrega.integration.spec.ts` | fluxo completo do sábado de entrega com dois voluntários |
 
 A pipeline de CI (`.github/workflows/ci.yml`) executa testes, build e `npm audit` em todo Pull Request.
+O workflow `.github/workflows/deploy.yml` publica a versão da `main` no GitHub Pages, somente se os testes passarem.
 
 ## Fluxo de trabalho
 
