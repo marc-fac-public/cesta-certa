@@ -66,6 +66,16 @@ describe('EntregaService', () => {
     }
   });
 
+  it('aceita o CPF com pontuação e gera o mesmo identificador da entrega', async () => {
+    const resultado = await servico.registrar('529.982.247-25', 'uid-ana', sabado);
+    expect(resultado.ok).toBe(true);
+    if (resultado.ok) {
+      expect(resultado.entrega.id).toBe('52998224725_2026-11');
+    }
+    const repetida = await servico.registrar('52998224725', 'uid-carlos', sabado);
+    expect(repetida.ok).toBe(false);
+  });
+
   it('permite nova entrega no mês seguinte', async () => {
     await servico.registrar('52998224725', 'uid-ana', sabado);
     const dezembro = await servico.registrar('52998224725', 'uid-ana', new Date(2026, 11, 5, 9, 0));
