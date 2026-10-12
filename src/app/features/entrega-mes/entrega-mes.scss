@@ -1,20 +1,20 @@
-.sem-internet { background: #3a3a3a; color: #fff; border-radius: 10px; padding: 8px 12px; font-size: 15px; display: flex; gap: 8px; align-items: center; }
+.sem-internet { background: #3a3a3a; color: #fff; border-radius: 10px; padding: 8px 12px; font-size: 0.9375rem; display: flex; gap: 8px; align-items: center; }
 .progresso { background: #fff; border: 2px solid #cfcfc8; border-radius: 12px; padding: 10px 14px; }
-.progresso .num { font-size: 20px; font-weight: 700; }
+.progresso .num { font-size: 1.25rem; font-weight: 700; }
 .barra { height: 12px; background: #ddd; border-radius: 6px; margin-top: 6px; overflow: hidden; }
 .barra i { display: block; height: 100%; background: var(--verde); }
 .busca { position: relative; }
-.limpar { position: absolute; right: 6px; top: 34px; min-width: 48px; min-height: 48px; border: none; background: transparent; font-size: 15px; font-weight: 700; color: var(--texto2); cursor: pointer; }
+.limpar { position: absolute; right: 6px; bottom: 2px; min-width: 48px; min-height: 48px; border: none; background: transparent; font-size: 0.9375rem; font-weight: 700; color: var(--texto2); cursor: pointer; }
 .ajuda { margin: 0; }
 .familia { display: flex; flex-direction: column; gap: 10px; }
-.nome { font-size: 21px; font-weight: 700; }
+.nome { font-size: 1.3125rem; font-weight: 700; }
 .linha-acao { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-.status { border-radius: 10px; padding: 8px 12px; font-size: 16px; font-weight: 700; display: inline-flex; gap: 6px; align-items: center; }
+.status { border-radius: 10px; padding: 8px 12px; font-size: 1rem; font-weight: 700; display: inline-flex; gap: 6px; align-items: center; }
 .status.pendente { background: var(--pend-bg); color: #2b2b2b; border: 2px solid #8a8a8a; }
 .status.entregue { background: var(--verde-claro); color: var(--ok); border: 2px solid var(--ok); }
 .entregar { min-width: 132px; }
-.vazio { background: #fff; border: 2px dashed #8a8a8a; border-radius: 12px; padding: 14px; font-size: 17px; }
+.vazio { background: #fff; border: 2px dashed #8a8a8a; border-radius: 12px; padding: 14px; font-size: 1.0625rem; }
 .veu { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 10; }
 .dialogo { max-width: 400px; background: #fff; border-radius: 16px; padding: 20px; border-top: 10px solid var(--aviso-borda); display: flex; flex-direction: column; gap: 14px; }
-.dialogo h2 { margin: 0; font-size: 23px; color: var(--aviso); display: flex; gap: 10px; align-items: center; }
+.dialogo h2 { margin: 0; font-size: 1.4375rem; color: var(--aviso); display: flex; gap: 10px; align-items: center; }
 .dialogo p { margin: 0; }

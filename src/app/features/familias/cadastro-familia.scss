@@ -1,5 +1,5 @@
 .linha { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
 fieldset { border: 2px solid #cfcfc8; border-radius: 12px; padding: 8px 14px 12px; margin: 0; background: #fff; }
-legend { font-weight: 700; font-size: 17px; padding: 0 6px; }
+legend { font-weight: 700; font-size: 1.0625rem; padding: 0 6px; }
 .opcao { display: flex; align-items: center; gap: 12px; min-height: 48px; font-weight: 400; margin: 0; }
 .opcao input { width: 24px; height: 24px; accent-color: var(--verde); }
