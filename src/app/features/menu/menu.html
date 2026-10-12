@@ -1,0 +1,24 @@
+<header class="topo">
+  <div>
+    <div class="sub marca"><span aria-hidden="true">🌳</span> Cesta Certa · Raízes do Recanto</div>
+    <h1>Olá, {{ usuario.nome.split(' ')[0] }} <span class="papel">Voluntária</span></h1>
+    <div class="sub">{{ hoje }}</div>
+  </div>
+</header>
+
+<section class="conteudo" aria-label="Menu inicial">
+  <div class="cartao info" role="status">
+    <span class="ic" aria-hidden="true">✓</span>
+    <div><strong>Modo demonstração</strong><br />Dados fictícios guardados neste aparelho</div>
+  </div>
+
+  <a class="menu-btn prim" routerLink="/entrega">
+    <span class="ic" aria-hidden="true">🧺</span>
+    <span>Entrega do mês<small>{{ entregues() }} de {{ total() }} famílias já receberam</small></span>
+  </a>
+
+  <a class="menu-btn sec" routerLink="/familias">
+    <span class="ic" aria-hidden="true">👪</span>
+    <span>Cadastrar família<small>Novo cadastro com conferência de CPF</small></span>
+  </a>
+</section>

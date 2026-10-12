@@ -1,12 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.scss',
-  templateUrl: './app.html',
+  imports: [RouterOutlet],
+  template: `<main class="tela"><router-outlet /></main>`,
 })
-export class App {
-  protected readonly title = signal('cesta-certa');
-}
+export class App {}

@@ -1,0 +1,59 @@
+<header class="topo">
+  <a class="voltar" routerLink="/" aria-label="Voltar ao menu">← Menu</a>
+  <div><h1>Cadastrar família</h1><div class="sub">Campos com * são obrigatórios</div></div>
+</header>
+
+<form class="conteudo" [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+  @if (sucesso(); as nome) {
+    <div class="alerta ok" role="status"><span class="ic" aria-hidden="true">✓</span><div><strong>Família de {{ nome }} cadastrada.</strong><br />Ela já pode aparecer na entrega do mês.</div></div>
+  }
+  @if (duplicado(); as d) {
+    <div class="alerta aviso" role="alert">
+      <span class="ic" aria-hidden="true">⚠</span>
+      <div><strong>CPF já cadastrado.</strong><br />Este CPF pertence a {{ d.nome }} (CPF {{ d.cpf }}). Não faça um novo cadastro; atualize o existente.</div>
+    </div>
+  }
+
+  <div>
+    <label for="nome">Nome do responsável *</label>
+    <input id="nome" class="campo" formControlName="nomeResponsavel" autocomplete="name"
+      [attr.aria-invalid]="!!erro('nomeResponsavel')" [attr.aria-describedby]="erro('nomeResponsavel') ? 'erro-nome' : null" />
+    @if (erro('nomeResponsavel'); as e) { <div id="erro-nome" class="erro-campo">⚠ {{ e }}</div> }
+  </div>
+
+  <div>
+    <label for="cpf">CPF do responsável *</label>
+    <input id="cpf" class="campo" formControlName="cpfResponsavel" inputmode="numeric" placeholder="000.000.000-00"
+      [attr.aria-invalid]="!!erro('cpfResponsavel')" [attr.aria-describedby]="erro('cpfResponsavel') ? 'erro-cpf' : 'ajuda-cpf'" />
+    @if (erro('cpfResponsavel'); as e) { <div id="erro-cpf" class="erro-campo">⚠ {{ e }}</div> }
+    @else { <div id="ajuda-cpf" class="ajuda">Pode digitar com ou sem pontos e traço.</div> }
+  </div>
+
+  <div>
+    <label for="endereco">Endereço *</label>
+    <input id="endereco" class="campo" formControlName="endereco" autocomplete="street-address"
+      [attr.aria-invalid]="!!erro('endereco')" [attr.aria-describedby]="erro('endereco') ? 'erro-endereco' : null" />
+    @if (erro('endereco'); as e) { <div id="erro-endereco" class="erro-campo">⚠ {{ e }}</div> }
+  </div>
+
+  <div class="linha">
+    <div>
+      <label for="telefone">Telefone</label>
+      <input id="telefone" class="campo" formControlName="telefone" inputmode="tel" autocomplete="tel" />
+    </div>
+    <div>
+      <label for="moradores">Moradores *</label>
+      <input id="moradores" class="campo" type="number" min="1" formControlName="numMoradores"
+        [attr.aria-invalid]="!!erro('numMoradores')" [attr.aria-describedby]="erro('numMoradores') ? 'erro-moradores' : null" />
+    </div>
+  </div>
+  @if (erro('numMoradores'); as e) { <div id="erro-moradores" class="erro-campo">⚠ {{ e }}</div> }
+
+  <fieldset>
+    <legend>Situação</legend>
+    <label class="opcao"><input type="radio" formControlName="status" value="ativa" /> Ativa – recebe a cesta neste mês</label>
+    <label class="opcao"><input type="radio" formControlName="status" value="espera" /> Lista de espera</label>
+  </fieldset>
+
+  <button type="submit" class="btn btn-prim largura-total" [disabled]="salvando()">Salvar cadastro</button>
+</form>

@@ -1,0 +1,83 @@
+<header class="topo">
+  <a class="voltar" routerLink="/" aria-label="Voltar ao menu">← Menu</a>
+  <div>
+    <h1>Entrega do mês</h1>
+    <div class="sub">{{ nomeDoMes }}</div>
+  </div>
+</header>
+
+<section class="conteudo">
+  @if (confirmacao(); as c) {
+    <div class="alerta ok" role="status" aria-live="polite">
+      <span class="ic" aria-hidden="true">✓</span>
+      <div>
+        <strong>Cesta entregue para {{ c.nome }} às {{ c.hora }}.</strong><br />
+        @if (online()) { Registro salvo. } @else { ⏳ Aguardando internet para enviar. }
+      </div>
+    </div>
+  } @else if (!online()) {
+    <div class="sem-internet" role="status"><span aria-hidden="true">📵</span> Sem internet. As entregas ficam salvas no celular.</div>
+  }
+
+  @if (erro()) {
+    <div class="alerta erro" role="alert">
+      <span class="ic" aria-hidden="true">⚠</span>
+      <div><strong>Não foi possível salvar.</strong><br />Tente novamente.</div>
+    </div>
+  }
+
+  <div class="progresso">
+    <div class="num">{{ entregues() }} de {{ itens().length }} entregues</div>
+    <div class="barra" aria-hidden="true"><i [style.width.%]="itens().length ? (entregues() / itens().length) * 100 : 0"></i></div>
+  </div>
+
+  <div class="busca">
+    <label for="busca">Buscar por nome ou CPF</label>
+    <input #campo id="busca" class="campo" autocomplete="off" inputmode="search" (input)="aoDigitar($event)" />
+    @if (busca()) {
+      <button type="button" class="limpar" (click)="limpar(campo)" aria-label="Limpar busca">✕ Limpar</button>
+    }
+  </div>
+
+  <p class="ajuda" aria-live="polite">{{ mensagemBusca() }}</p>
+
+  @for (item of filtrados(); track item.familia.cpfResponsavel) {
+    <article class="cartao familia">
+      <div>
+        <div class="nome">{{ item.familia.nomeResponsavel }}</div>
+        <div class="ajuda">CPF {{ mascarar(item.familia.cpfResponsavel) }} · {{ item.familia.numMoradores }} moradores</div>
+      </div>
+      <div class="linha-acao">
+        @if (item.entrega) {
+          <span class="status entregue"><span aria-hidden="true">✓</span> Entregue às {{ hora(item.entrega.dataHoraEntrega) }}</span>
+        } @else {
+          <span class="status pendente"><span aria-hidden="true">⏱</span> Pendente</span>
+          <button
+            type="button"
+            class="btn btn-prim entregar"
+            [disabled]="registrando() === item.familia.cpfResponsavel"
+            (click)="entregar(item)"
+            [attr.aria-label]="'Entregar cesta para ' + item.familia.nomeResponsavel"
+          >
+            Entregar
+          </button>
+        }
+      </div>
+    </article>
+  } @empty {
+    <div class="vazio">Nenhuma família encontrada. Confira o nome ou busque pelo CPF.</div>
+  }
+</section>
+
+@if (aviso(); as a) {
+  <div class="veu">
+    <div class="dialogo" role="alertdialog" aria-modal="true" aria-labelledby="aviso-titulo" aria-describedby="aviso-texto">
+      <h2 id="aviso-titulo"><span aria-hidden="true">⚠</span> Cesta já entregue</h2>
+      <p id="aviso-texto">
+        <strong>{{ a.nome }}</strong> já recebeu a cesta deste mês <strong>hoje às {{ a.hora }}</strong>, registrada por {{ a.voluntario }}.
+      </p>
+      <p><strong>Não entregue outra cesta.</strong> Se houver engano, avise o administrador.</p>
+      <button #entendi type="button" class="btn btn-prim largura-total" (click)="fecharAviso()">Entendi, voltar à lista</button>
+    </div>
+  </div>
+}
