@@ -51,6 +51,7 @@ Pré-requisito: Node.js 24 (ver `.nvmrc`).
 npm ci            # instala as dependências exatas do package-lock.json
 npm start         # servidor de desenvolvimento em http://localhost:4200
 npm run test:ci   # executa os testes uma vez
+npm run test:coverage  # testes + relatório de cobertura (pasta coverage/)
 npm run build     # gera o build de produção em dist/
 ```
 

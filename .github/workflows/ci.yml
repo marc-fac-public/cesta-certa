@@ -27,8 +27,8 @@ jobs:
       - name: Instalar dependências exatas
         run: npm ci
 
-      - name: Executar testes unitários e de integração
-        run: npm run test:ci
+      - name: Executar testes unitários e de integração com cobertura
+        run: npm run test:coverage
 
       - name: Gerar build de produção
         run: npm run build
