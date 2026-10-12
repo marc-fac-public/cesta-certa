@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* Cesta Certa – estilos globais (RNF04: contraste, áreas de toque de 48px, texto base de 18px) */
+:root {
+  --verde: #1e5e3b;
+  --verde-esc: #14432a;
+  --verde-claro: #e3f3e8;
+  --ok: #17602f;
+  --fundo: #f6f6f1;
+  --texto: #141414;
+  --texto2: #3a3a3a;
+  --borda: #6b6b6b;
+  --pend-bg: #ececec;
+  --aviso: #7a3e00;
+  --aviso-bg: #fff0d9;
+  --aviso-borda: #b85c00;
+  --erro: #9b1c1c;
+  --erro-bg: #fdecec;
+  --foco: #1a56db;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #d9dcd6; color: var(--texto); font-family: Roboto, "Helvetica Neue", Arial, sans-serif; }
+body { font-size: 18px; line-height: 1.4; }
+.tela { max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--fundo); display: flex; flex-direction: column; position: relative; }
+.topo { background: var(--verde); color: #fff; padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.topo h1 { font-size: 21px; margin: 0; font-weight: 700; }
+.topo .sub { font-size: 15px; }
+.conteudo { padding: 18px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+a, button { font-family: inherit; }
+:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+.voltar { min-width: 48px; min-height: 48px; border: 2px solid #fff; border-radius: 10px; background: transparent; color: #fff; font-size: 16px; font-weight: 700; padding: 0 10px; display: inline-flex; align-items: center; text-decoration: none; }
+label { font-weight: 700; font-size: 17px; display: block; margin-bottom: 6px; }
+.campo { width: 100%; min-height: 52px; border: 2px solid var(--borda); border-radius: 10px; padding: 12px 14px; font-size: 18px; background: #fff; color: var(--texto); }
+.campo[aria-invalid="true"] { border-color: var(--erro); }
+.erro-campo { color: var(--erro); font-size: 16px; margin-top: 4px; font-weight: 600; }
+.btn { min-height: 56px; min-width: 48px; border-radius: 12px; font-size: 19px; font-weight: 700; border: none; padding: 0 18px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; text-decoration: none; }
+.btn-prim { background: var(--verde); color: #fff; }
+.btn-sec { background: #fff; color: var(--verde); border: 2px solid var(--verde); }
+.btn[disabled] { opacity: .6; cursor: wait; }
+.largura-total { width: 100%; }
+.alerta { border-radius: 12px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-size: 17px; border: 2px solid; }
+.alerta .ic { font-size: 24px; line-height: 1; }
+.alerta.ok { background: var(--verde-claro); color: var(--ok); border-color: var(--ok); }
+.alerta.aviso { background: var(--aviso-bg); color: var(--aviso); border-color: var(--aviso-borda); }
+.alerta.erro { background: var(--erro-bg); color: var(--erro); border-color: var(--erro); }
+.cartao { background: #fff; border: 2px solid #cfcfc8; border-radius: 14px; padding: 14px; }
+.ajuda { font-size: 15px; color: var(--texto2); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
