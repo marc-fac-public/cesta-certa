@@ -1,5 +1,7 @@
 # Cesta Certa
 
+[![CI](https://github.com/marc-fac-public/cesta-certa/actions/workflows/ci.yml/badge.svg)](https://github.com/marc-fac-public/cesta-certa/actions/workflows/ci.yml)
+
 Sistema web (PWA) para controle do cadastro de famílias e da entrega mensal de cestas básicas da **Associação Comunitária Raízes do Recanto** (Recanto das Emas – DF).
 
 Projeto acadêmico da disciplina de **Projeto de Software** (Experiência Prática III), alinhado ao **ODS 2 – Fome Zero e Agricultura Sustentável (meta 2.1)**.
@@ -51,6 +53,28 @@ npm start         # servidor de desenvolvimento em http://localhost:4200
 npm run test:ci   # executa os testes uma vez
 npm run build     # gera o build de produção em dist/
 ```
+
+## Estrutura do código
+
+```
+src/app/core/
+├── models/         # Familia, Entrega, Usuario
+├── validators/     # CPF: validação, máscara e nome para busca
+├── repositories/   # contratos de persistência + implementação em memória
+├── services/       # FamiliaService e EntregaService (regras de negócio)
+└── integracao/     # testes de integração do fluxo de entrega
+```
+
+## Testes
+
+| Tipo | Arquivo | O que verifica |
+|---|---|---|
+| Unitário | `validators/cpf.spec.ts` | dígitos verificadores, máscara e busca sem acentos |
+| Unitário | `services/familia.service.spec.ts` | cadastro, CPF duplicado (RF03), XSS e busca (RF05) |
+| Unitário | `services/entrega.service.spec.ts` | registro (RF07) e bloqueio da 2ª entrega no mês (RF08) |
+| Integração | `integracao/fluxo-entrega.integration.spec.ts` | fluxo completo do sábado de entrega com dois voluntários |
+
+A pipeline de CI (`.github/workflows/ci.yml`) executa testes, build e `npm audit` em todo Pull Request.
 
 ## Fluxo de trabalho
 
